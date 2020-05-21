@@ -1,0 +1,22 @@
+{
+  "name": "soen/event",
+  "description": "",
+  "type": "library",
+  "keywords": ["soen", "event"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "soen",
+      "email": "soen66@163.com"
+    }
+  ],
+  "require": {
+    "psr/event-dispatcher": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Soen\\Event\\": "src/"
+    }
+  }
+  "minimum-stability": "dev"
+}
