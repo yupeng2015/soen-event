@@ -36,7 +36,7 @@ class ListenerProvider implements ListenerProviderInterface
 			    $tmpEvents[$eventClassName][] = $listener;
 		    }
 	    }
-        $this->listeners = $listeners;
+        $this->listeners = $tmpEvents;
     }
 
     /**
@@ -50,12 +50,16 @@ class ListenerProvider implements ListenerProviderInterface
     {
     	// TODO
         $class    = get_class($event);
+        $listeners = $this->listeners[$class];
         $iterable = [];
-        foreach ($this->listeners as $listener) {
-            if (in_array($class, $listener->events())) {
-                $iterable[] = [$listener, 'process'];
-            }
+        foreach ($listeners as $listener) {
+            $iterable[] = [$listener, 'process'];
         }
+//        foreach ($this->listeners as $listener) {
+//            if (in_array($class, $listener->events())) {
+//                $iterable[] = [$listener, 'process'];
+//            }
+//        }
         return $iterable;
     }
 
