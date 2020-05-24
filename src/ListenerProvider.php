@@ -23,20 +23,20 @@ class ListenerProvider implements ListenerProviderInterface
      */
     public function __construct(ListenerInterface ...$listeners)
     {
-    	/*重组事件的 数组格式*/
-    	foreach ($listeners as $listener){
-		    $events = (new $listener)->event();
-		    $tmpEvents = [];
+	    /*重组事件的 数组格式*/
+	    $tmpEvents = [];
+	    foreach ($listeners as $listener){
+		    $events = $listener->events();
 		    foreach ($events as $event) {
-			    $eventClassName = get_class($event);
-			    if(in_array($eventClassName, $tmpEvents)){
+			    $eventClassName = $event;
+			    if(array_key_exists($eventClassName, $tmpEvents)){
 				    array_push($tmpEvents[$eventClassName], $listener);
 				    continue;
 			    }
 			    $tmpEvents[$eventClassName][] = $listener;
 		    }
 	    }
-        $this->listeners = $tmpEvents;
+	    $this->listeners = $tmpEvents;
     }
 
     /**
@@ -48,19 +48,19 @@ class ListenerProvider implements ListenerProviderInterface
      */
     public function getListenersForEvent(object $event): iterable
     {
-    	// TODO
-        $class    = get_class($event);
-        $listeners = $this->listeners[$class];
-        $iterable = [];
-        foreach ($listeners as $listener) {
-            $iterable[] = [$listener, 'process'];
-        }
+	    // TODO
+	    $class    = (new \ReflectionClass($event))->name;
+	    $listeners = $this->listeners[$class];
+	    $iterable = [];
+	    foreach ($listeners as $listener) {
+		    $iterable[] = [$listener, 'process'];
+	    }
 //        foreach ($this->listeners as $listener) {
 //            if (in_array($class, $listener->events())) {
 //                $iterable[] = [$listener, 'process'];
 //            }
 //        }
-        return $iterable;
+	    return $iterable;
     }
 
 }
