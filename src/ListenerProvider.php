@@ -49,7 +49,7 @@ class ListenerProvider implements ListenerProviderInterface
     public function getListenersForEvent(object $event): iterable
     {
 	    // TODO
-	    $class    = (new \ReflectionClass($event))->name;
+	    $class    = get_class($event);
 	    $listeners = $this->listeners[$class];
 	    $iterable = [];
 	    foreach ($listeners as $listener) {
