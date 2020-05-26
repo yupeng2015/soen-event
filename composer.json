@@ -17,6 +17,6 @@
     "psr-4": {
       "Soen\\Event\\": "src/"
     }
-  }
+  },
   "minimum-stability": "dev"
 }
